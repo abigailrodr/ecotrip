@@ -1,0 +1,308 @@
+/* ============================================
+   App.css - Custom Styles for EcoTrip
+   This file contains custom CSS that extends our 
+   Tailwind setup with specific component styles
+   ============================================ */
+
+/* ============================================
+   Hero Section Styles
+   Used on the landing page for the main banner
+   ============================================ */
+
+/* Gradient overlay that goes on top of the hero background image
+   Makes text more readable against the photo */
+.hero-overlay {
+    background: linear-gradient(
+        135deg,
+        rgba(46, 92, 85, 0.85) 0%,      /* Primary color, high opacity */
+        rgba(46, 92, 85, 0.6) 50%,       /* Fades in middle */
+        rgba(217, 124, 86, 0.4) 100%     /* Accent color, low opacity */
+    );
+}
+
+/* ============================================
+   Feature Grid Layout
+   Creates an asymmetric layout for feature cards
+   This makes the design more visually interesting
+   than a standard equal-width grid
+   ============================================ */
+
+/* Base grid using CSS Grid with 12 columns */
+.feature-grid {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: 1.5rem;
+}
+
+/* Each feature card spans different numbers of columns */
+.feature-card-1 {
+    grid-column: span 7;  /* Takes 7 of 12 columns */
+}
+
+.feature-card-2 {
+    grid-column: span 5;  /* Takes 5 of 12 columns */
+}
+
+.feature-card-3 {
+    grid-column: span 4;  /* Takes 4 of 12 columns */
+}
+
+.feature-card-4 {
+    grid-column: span 8;  /* Takes 8 of 12 columns */
+}
+
+/* On mobile, all cards take full width */
+@media (max-width: 768px) {
+    .feature-card-1,
+    .feature-card-2,
+    .feature-card-3,
+    .feature-card-4 {
+        grid-column: span 12;
+    }
+}
+
+/* ============================================
+   Dashboard Grid Layout
+   Used for stat cards on the dashboard
+   ============================================ */
+
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: 1rem;
+}
+
+/* Stat cards take 3 columns each (4 per row) */
+.stat-card-large {
+    grid-column: span 3;
+}
+
+/* Chart cards take half width */
+.stat-card-chart {
+    grid-column: span 6;
+}
+
+/* Tablet: 2 stat cards per row */
+@media (max-width: 1024px) {
+    .stat-card-large {
+        grid-column: span 6;
+    }
+    .stat-card-chart {
+        grid-column: span 12;
+    }
+}
+
+/* Mobile: 1 stat card per row */
+@media (max-width: 640px) {
+    .stat-card-large {
+        grid-column: span 12;
+    }
+}
+
+/* ============================================
+   Itinerary Timeline Styles
+   Creates a vertical timeline with connecting line
+   ============================================ */
+
+/* Day container with left padding for timeline */
+.itinerary-day {
+    position: relative;
+    padding-left: 3rem;
+}
+
+/* Vertical connecting line using ::before pseudo-element */
+.itinerary-day::before {
+    content: '';
+    position: absolute;
+    left: 0.875rem;
+    top: 2rem;
+    bottom: 0;
+    width: 2px;
+    background: linear-gradient(
+        to bottom,
+        hsl(var(--primary)),           /* Solid at top */
+        hsl(var(--primary) / 0.2)      /* Fades out at bottom */
+    );
+}
+
+/* Hide line for last day */
+.itinerary-day:last-child::before {
+    display: none;
+}
+
+/* ============================================
+   Activity Card Styles
+   Used for individual activities in itinerary
+   ============================================ */
+
+.activity-card {
+    position: relative;
+}
+
+/* Timeline dot for each activity */
+.activity-card::before {
+    content: '';
+    position: absolute;
+    left: -2.125rem;
+    top: 1.25rem;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: hsl(var(--primary));
+    border: 3px solid hsl(var(--background));
+    box-shadow: 0 0 0 2px hsl(var(--primary) / 0.2);  /* Outer ring */
+}
+
+/* ============================================
+   Green Score Circle
+   Circular progress indicator for eco score
+   Uses conic-gradient for the progress effect
+   ============================================ */
+
+.green-score-circle {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    /* Conic gradient creates the progress arc effect */
+    background: conic-gradient(
+        hsl(var(--primary)) calc(var(--score) * 1%),  /* Filled portion */
+        hsl(var(--muted)) calc(var(--score) * 1%)     /* Empty portion */
+    );
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Inner circle creates the donut effect */
+.green-score-inner {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background: hsl(var(--card));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+/* ============================================
+   Map Container
+   Styles for the Leaflet map wrapper
+   ============================================ */
+
+.map-container {
+    height: 400px;
+    border-radius: var(--radius);
+    overflow: hidden;  /* Clips map to rounded corners */
+    box-shadow: 0 4px 20px -2px rgba(46, 92, 85, 0.08);
+}
+
+/* ============================================
+   Interest Tag Styles
+   Selectable tags used in trip planner
+   Uses @apply to include Tailwind utilities
+   ============================================ */
+
+.interest-tag {
+    @apply px-4 py-2 rounded-full border-2 cursor-pointer transition-all duration-200;
+}
+
+/* Unselected state */
+.interest-tag:not(.selected) {
+    @apply border-border bg-transparent text-foreground hover:border-primary/50;
+}
+
+/* Selected state - filled with primary color */
+.interest-tag.selected {
+    @apply border-primary bg-primary text-primary-foreground;
+}
+
+/* ============================================
+   Expense Category Colors
+   Color-coded badges for different expense types
+   ============================================ */
+
+.expense-transport { @apply bg-blue-100 text-blue-800; }
+.expense-accommodation { @apply bg-purple-100 text-purple-800; }
+.expense-food { @apply bg-orange-100 text-orange-800; }
+.expense-activities { @apply bg-green-100 text-green-800; }
+.expense-shopping { @apply bg-pink-100 text-pink-800; }
+.expense-other { @apply bg-gray-100 text-gray-800; }
+
+/* ============================================
+   Form Wizard Step Indicator
+   Shows progress through multi-step forms
+   ============================================ */
+
+.step-indicator {
+    @apply flex items-center justify-center w-10 h-10 rounded-full text-sm font-semibold transition-all duration-300;
+}
+
+/* Current active step */
+.step-indicator.active {
+    @apply bg-primary text-primary-foreground scale-110;  /* Slightly larger */
+}
+
+/* Completed steps (checkmark shown) */
+.step-indicator.completed {
+    @apply bg-primary/20 text-primary;
+}
+
+/* Future steps (not yet reached) */
+.step-indicator.pending {
+    @apply bg-muted text-muted-foreground;
+}
+
+/* ============================================
+   Navbar Blur Effect
+   Creates frosted glass effect for sticky nav
+   ============================================ */
+
+.navbar-blur {
+    backdrop-filter: blur(12px);                    /* Blur background content */
+    background: rgba(249, 247, 242, 0.8);           /* Semi-transparent background */
+}
+
+/* ============================================
+   Carbon Comparison Bars
+   Progress bars for carbon breakdown
+   ============================================ */
+
+.carbon-bar {
+    height: 8px;
+    border-radius: 4px;
+    transition: width 0.5s ease-out;  /* Animate width changes */
+}
+
+/* Category-specific colors */
+.carbon-bar-transport { @apply bg-blue-500; }
+.carbon-bar-accommodation { @apply bg-purple-500; }
+.carbon-bar-activities { @apply bg-green-500; }
+
+/* ============================================
+   Eco Badge
+   Small badge showing eco-friendly items
+   ============================================ */
+
+.eco-badge {
+    @apply inline-flex items-center gap-1 px-2 py-1 text-xs font-medium rounded-full;
+    background: hsl(var(--primary) / 0.1);
+    color: hsl(var(--primary));
+}
+
+/* ============================================
+   Print Styles
+   Styles applied when printing/exporting PDF
+   ============================================ */
+
+@media print {
+    /* Hide elements that shouldn't be printed */
+    .no-print {
+        display: none !important;
+    }
+    
+    /* Clean white background for printing */
+    body {
+        background: white !important;
+    }
+}
